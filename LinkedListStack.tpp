@@ -24,11 +24,32 @@ LinkedListStack<T>::~LinkedListStack() {
 template <typename T>
 void LinkedListStack<T>::clear() {
     // TO DO: Delete all the elements in the stack
+    Node<T> *temp = nullptr;
+    while (top) {
+        temp = top;
+        top = top->next;
+        delete temp;
+    }
+    this->length = 0;
 }
 
 template <typename T>
 void LinkedListStack<T>::copy(const LinkedListStack<T>& copyObj) {
     // TO DO: Implement copy 
+    if (copyObj.top == nullptr) {
+        top = nullptr;
+        return;
+    }
+
+    top = new Node<T> (copyObj.top->data);
+    Node<T> *destPtr = top;
+    Node<T> *srcPtr = copyObj.top->next;
+
+    while (srcPtr) {
+        destPtr->next = new Node<T>(srcPtr->data);
+        destPtr = destPtr->next;
+        srcPtr = srcPtr->next;
+    }
     
 }
 
@@ -46,16 +67,30 @@ bool LinkedListStack<T>::isEmpty() const {
 template <typename T>
 T LinkedListStack<T>::peek() const {
     // TO DO: implement peek
+    if ( isEmpty())
+        throw string("peek:error - Stack List is empty");
+    return top->data;
 }
 
 template <typename T>
 void LinkedListStack<T>::pop() {
     // TO DO: Implement pop
+    if ( isEmpty())
+        throw string("pop:error - Stack List is empty");
+
+    Node<T> *currTop = top;
+    top = top->next;
+    delete currTop;
+    this->length--;
 }
 
 template <typename T>
 void LinkedListStack<T>::push(const T& elem) {
     // TO DO: Implement push
+    Node<T> *newNode = new Node<T>(elem);
+    newNode->next = top;
+    top = newNode;
+    this->length++;
 }
 
 template <typename T>
