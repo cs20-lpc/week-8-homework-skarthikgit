@@ -96,6 +96,36 @@ void LinkedListStack<T>::push(const T& elem) {
 template <typename T>
 void LinkedListStack<T>::rotate(typename Stack<T>::Direction dir) {
     // TO DO: Implement rotate
+    if ( isEmpty())
+        throw string("rotate:error - Stack List is empty"); else if (this->length == 1) {
+        return;
+    }
+    else if (dir == Stack<T>::RIGHT) {
+        Node<T> *tmpTop = top;
+        Node<T> *curr = top->next;
+
+        while (curr->next) {
+            curr = curr->next;
+        }
+
+        curr->next = tmpTop;
+        tmpTop->next = nullptr;
+
+    }
+    else if (dir == Stack<T>::LEFT) {
+        Node<T> *curr = top;
+        while (curr->next->next) {
+            curr = curr->next;
+        }
+
+        Node<T> *lastNode = curr->next;
+        curr->next = nullptr;
+        lastNode->next = top;
+        top = lastNode;
+    }
+    else {
+        throw string("rotate:error - unknown direction");
+    }
 }
 
 template <typename T>
